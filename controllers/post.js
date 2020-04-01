@@ -1,7 +1,13 @@
 var Post = require("../Models/Post");
 
 const getPosts = (req, res) => {
-  res.json({ message: "Welcome to Commuincation" });
+  Post.find()
+    .then(posts => {
+      res.status(200).json({ posts: posts });
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
 };
 
 const createPost = (req, res) => {
@@ -9,10 +15,10 @@ const createPost = (req, res) => {
   newPost
     .save()
     .then(post => {
-      res.json({ message: post });
+      res.status(200).json({ message: post });
     })
     .catch(err => {
-      console.log("Error is:", err.message);
+      res.status(400).send(err);
     });
 };
 
