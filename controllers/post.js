@@ -2,6 +2,7 @@ var Post = require("../Models/Post");
 
 const getPosts = (req, res) => {
   Post.find()
+    .select("_id title body")
     .then(posts => {
       res.status(200).json({ posts: posts });
     })

@@ -3,6 +3,7 @@ var dotenv = require("dotenv");
 var morgan = require("morgan");
 var mongoose = require("mongoose");
 var bodyparser = require("body-parser");
+var expressValidator = require("express-validator");
 var app = express();
 dotenv.config();
 var port = process.env.PORT;
@@ -20,8 +21,10 @@ mongoose
   .catch(err => {
     console.log("Error is ", err.message);
   });
+
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
+app.use(expressValidator());
 app.use(morgan("dev"));
 app.use("/", postRoutes);
 

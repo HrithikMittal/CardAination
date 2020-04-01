@@ -5,7 +5,7 @@ exports.createPostValidator = (req, res, next) => {
     max: 150
   });
 
-  req.check("body", "Write a body").nonEmpty();
+  req.check("body", "Write a body").notEmpty();
   req.check("body", "Body must be between 4 to 2000 characters").isLength({
     min: 4,
     max: 2000
@@ -16,7 +16,7 @@ exports.createPostValidator = (req, res, next) => {
   //if error show the first one as they happen
   if (errors) {
     const firstError = errors.map(error => error.msg)[0];
-    return res.status(400), json({ error: firstError });
+    return res.status(400).json({ error: firstError });
   }
   //proceed to next middleware
   next();
