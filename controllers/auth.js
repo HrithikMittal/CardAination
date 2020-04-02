@@ -69,7 +69,10 @@ const signout = (req, res) => {
 };
 
 const requireSign = expressJwt({
-  secret: process.env.JWT_SECRET
+  // if the token is valid, express jwt appends the verified users id
+  // in an auth key to the request object
+  secret: process.env.JWT_SECRET,
+  userProperty: "auth"
 });
 
 module.exports = { signup, login, signout, requireSign };

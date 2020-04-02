@@ -6,9 +6,10 @@ var postControllers = require("../controllers/post");
 var authControllers = require("../controllers/auth");
 var userControllers = require("../controllers/user");
 
-router.get("/", authControllers.requireSign, postControllers.getPosts);
+router.get("/", postControllers.getPosts);
 router.post(
   "/post",
+  authControllers.requireSign,
   postValidation.createPostValidator,
   postControllers.createPost
 );
