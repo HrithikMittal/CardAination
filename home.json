@@ -1,0 +1,14 @@
+{
+  "/signup": "POST || To Signup",
+  "/signin": "POST || To Login",
+  "/signout": "GET || To Logout",
+  "/users": "GET || To get all users",
+  "/user/:userId": "GET || User By Id || Requires Authentication",
+  "/user/:userId": "PUT || To Update the profile || Requires Authentication and Autherization",
+  "/user/:userId": "DELETE || To Delete the profile || Requires Authentication and Autherization",
+  "/post": "GET || TO get all the posts",
+  "/post/new/:userId": "POST || To Create new Post || Requires Authentication",
+  "/post/:userId": "GET || Get All by userid",
+  "/post/:postId": "DELETE || To delete the post || Requires Authentication and Autherization",
+  "/post/:postId": "PUT || To update the post || Requires Authentication and Autherization"
+}

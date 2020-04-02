@@ -1,3 +1,4 @@
+var _ = require("lodash");
 var formidable = require("formidable");
 var fs = require("fs");
 
@@ -89,11 +90,26 @@ var deletePost = (req, res) => {
   });
 };
 
+var updatePost = (req, res) => {
+  let post = req.post;
+  post = _.extend(post, req.body); // extend - mutate the source object
+  post.updated = Date.now();
+  post
+    .save()
+    .then(postres => {
+      res.json({ Post: postres });
+    })
+    .catch(err => {
+      res.json({ message: "Error in Updating the Post" });
+    });
+};
+
 module.exports = {
   getPosts,
   createPost,
   postsByUser,
   postById,
   isPoster,
+  updatePost,
   deletePost
 };

@@ -8,7 +8,7 @@ var userControllers = require("../controllers/user");
 
 router.get("/", postControllers.getPosts);
 router.post(
-  "/post/new/:userId",
+  "/new/:userId",
   authControllers.requireSign,
   postControllers.createPost,
   postValidation.createPostValidator
@@ -20,6 +20,7 @@ router.delete(
   postControllers.isPoster,
   postControllers.deletePost
 );
+router.put("/:postId", authControllers.requireSign, postControllers.updatePost);
 
 router.param("userId", userControllers.userById);
 router.param("postId", postControllers.postById);

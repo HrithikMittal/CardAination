@@ -13,6 +13,7 @@ var port = process.env.PORT;
 var postRoutes = require("./routes/post");
 var authRoutes = require("./routes/auth");
 var userRoutes = require("./routes/user");
+var data = require("./home.json");
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -32,7 +33,12 @@ app.use(expressValidator());
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(cors());
-app.use("/", postRoutes);
+
+app.get("/", (req, res) => {
+  res.send(data);
+});
+
+app.use("/post", postRoutes);
 app.use("/", authRoutes);
 app.use("/", userRoutes);
 
