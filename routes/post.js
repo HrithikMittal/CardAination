@@ -8,11 +8,12 @@ var userControllers = require("../controllers/user");
 
 router.get("/", postControllers.getPosts);
 router.post(
-  "/post",
+  "/post/new/:userId",
   authControllers.requireSign,
-  postValidation.createPostValidator,
-  postControllers.createPost
+  postControllers.createPost,
+  postValidation.createPostValidator
 );
+router.get("/:userId", postControllers.postsByUser);
 
 router.param("userId", userControllers.userById);
 module.exports = router;

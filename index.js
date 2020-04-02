@@ -26,7 +26,7 @@ mongoose
   });
 
 app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: false }));
+// app.use(bodyparser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(morgan("dev"));
 app.use(cookieParser());
