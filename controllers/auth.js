@@ -47,7 +47,7 @@ const login = (req, res) => {
           if (!result) res.json({ message: "Wrong Password" });
 
           // generate a token with user id and secret
-          const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+          const token = jwt.sign({ _id: person._id }, process.env.JWT_SECRET);
 
           // persist the token as 't' in cookie with expiry date
           res.cookie("t", token, { expire: new Date() + 9999 });
