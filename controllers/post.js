@@ -54,13 +54,15 @@ const postsByUser = (req, res) => {
 
 const postById = (req, res, next, id) => {
   console.log(id);
-  Post.findById(id).exec((err, post) => {
-    if (err || !post) {
-      return res.status(400).json({ error: "Post not found" });
-    }
-    req.post = post; // adds profile object in req with user info
-    next();
-  });
+  Post.findById(id)
+    .populate("postedBy", "_id name")
+    .exec((err, post) => {
+      if (err || !post) {
+        return res.status(400).json({ error: "Post not found" });
+      }
+      req.post = post; // adds profile object in req with user info
+      next();
+    });
 };
 
 const isPoster = (req, res, next) => {
