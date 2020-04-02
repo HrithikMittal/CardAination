@@ -1,3 +1,6 @@
+var formidable = require("formidable");
+var fs = require("fs");
+
 var Post = require("../Models/Post");
 
 const getPosts = (req, res) => {
@@ -11,7 +14,30 @@ const getPosts = (req, res) => {
     });
 };
 
-const createPost = (req, res) => {
+const createPost = (req, res, next) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      return res.status(400).json({
+        error: "Image could not beupoaded"
+      });
+    }
+    let post = new Post({ fields });
+    post.postedBy = req.profile;
+    if (files.photo) {
+      post.photo.data = fs.readFileSync(files.photo.path);
+      post.photo.contentType = files.photo.type;
+    }
+    post.save((err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: err
+        });
+      }
+      res.json(result);
+    });
+  });
   var newPost = new Post(req.body);
   newPost
     .save()
