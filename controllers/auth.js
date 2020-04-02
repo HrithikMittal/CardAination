@@ -7,7 +7,7 @@ const signup = (req, res) => {
   User.findOne({ email: newUser.email })
     .then(userres => {
       if (userres)
-        res.json({
+        res.status(403).json({
           message: "User is already signup with this email Id"
         });
       else {
@@ -18,6 +18,8 @@ const signup = (req, res) => {
             newUser
               .save()
               .then(user => {
+                user.password = undefined;
+
                 res.json({ user });
               })
               .catch(err => {

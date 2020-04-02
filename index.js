@@ -9,7 +9,7 @@ dotenv.config();
 var port = process.env.PORT;
 
 var postRoutes = require("./routes/post");
-var userRoutes = require("./routes/user");
+var authRoutes = require("./routes/auth");
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -28,7 +28,7 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(morgan("dev"));
 app.use("/", postRoutes);
-app.use("/", userRoutes);
+app.use("/", authRoutes);
 
 app.listen(port, () => {
   console.log("Server is listening on PORT:", port);
