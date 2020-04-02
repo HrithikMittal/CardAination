@@ -53,4 +53,24 @@ var updateUser = (req, res) => {
     });
 };
 
-module.exports = { userById, hasAuthorization, allUsers, getUser, updateUser };
+var deleteUser = (req, res) => {
+  let user = req.profile;
+  user.remove((err, user) => {
+    if (err) {
+      return res.status(400).json({
+        error: err
+      });
+    }
+    user.password = undefined;
+    res.json({ user });
+  });
+};
+
+module.exports = {
+  userById,
+  hasAuthorization,
+  allUsers,
+  getUser,
+  updateUser,
+  deleteUser
+};

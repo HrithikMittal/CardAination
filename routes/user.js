@@ -12,6 +12,12 @@ router.put(
   userController.hasAuthorization,
   userController.updateUser
 );
+router.delete(
+  "/user/:userId",
+  authController.requireSign,
+  userController.hasAuthorization,
+  userController.deleteUser
+);
 
 router.param("userId", userController.userById);
 module.exports = router;
