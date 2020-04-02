@@ -1,14 +1,15 @@
 var express = require("express");
 var router = express.Router();
 
-var userController = require("../controllers/auth");
+var authController = require("../controllers/auth");
 var userValidator = require("../helpers/index");
 
 router.post(
   "/signup",
   userValidator.userSignupValidator,
-  userController.signup
+  authController.signup
 );
-router.post("/login", userValidator.userSigninValidator, userController.login);
+router.post("/signin", userValidator.userSigninValidator, authController.login);
+router.get("/signout", authController.signout);
 
 module.exports = router;

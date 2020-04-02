@@ -62,4 +62,9 @@ const login = (req, res) => {
     });
 };
 
-module.exports = { signup, login };
+const signout = (req, res) => {
+  res.clearCookie("t");
+  return res.status(200).json({ message: "Signout succes!" });
+};
+
+module.exports = { signup, login, signout };
