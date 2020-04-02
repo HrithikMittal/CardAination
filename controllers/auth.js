@@ -1,6 +1,7 @@
 var bcrypt = require("bcryptjs");
 var User = require("../Models/User");
 var jwt = require("jsonwebtoken");
+var expressJwt = require("express-jwt");
 
 const signup = (req, res) => {
   var newUser = new User(req.body);
@@ -67,4 +68,8 @@ const signout = (req, res) => {
   return res.status(200).json({ message: "Signout succes!" });
 };
 
-module.exports = { signup, login, signout };
+const requireSign = expressJwt({
+  secret: process.env.JWT_SECRET
+});
+
+module.exports = { signup, login, signout, requireSign };

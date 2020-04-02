@@ -1,9 +1,11 @@
 var express = require("express");
 var router = express.Router();
-var postControllers = require("../controllers/post");
-var postValidation = require("../helpers/index");
 
-router.get("/", postControllers.getPosts);
+var postValidation = require("../helpers/index");
+var postControllers = require("../controllers/post");
+var authControllers = require("../controllers/auth");
+
+router.get("/", authControllers.requireSign, postControllers.getPosts);
 router.post(
   "/post",
   postValidation.createPostValidator,
