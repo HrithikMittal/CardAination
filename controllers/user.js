@@ -21,4 +21,15 @@ var hasAuthorization = (req, res, next) => {
   next();
 };
 
-module.exports = { userById, hasAuthorization };
+var allUsers = (req, res) => {
+  User.find()
+    .select("name email updated created")
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => {
+      res.json({ message: "Error is in getting all users" });
+    });
+};
+
+module.exports = { userById, hasAuthorization, allUsers };

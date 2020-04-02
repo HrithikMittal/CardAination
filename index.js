@@ -11,6 +11,7 @@ var port = process.env.PORT;
 
 var postRoutes = require("./routes/post");
 var authRoutes = require("./routes/auth");
+var userRoutes = require("./routes/user");
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -31,6 +32,7 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use("/", postRoutes);
 app.use("/", authRoutes);
+app.use("/", userRoutes);
 
 app.use(function(err, req, res, next) {
   if (err.name === "UnauthorizedError") {
