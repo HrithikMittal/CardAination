@@ -52,4 +52,46 @@ const postsByUser = (req, res) => {
     });
 };
 
-module.exports = { getPosts, createPost, postsByUser };
+const postById = (req, res, next, id) => {
+  console.log(id);
+  Post.findById(id).exec((err, post) => {
+    if (err || !post) {
+      return res.status(400).json({ error: "Post not found" });
+    }
+    req.post = post; // adds profile object in req with user info
+    next();
+  });
+};
+
+const isPoster = (req, res, next) => {
+  const authorized =
+    req.post && req.auth && req.post.postedBy._id == req.auth._id;
+
+  if (!authorized) {
+    return res.status(403).json({
+      error: "User is not authorized to perform this action"
+    });
+  }
+  next();
+};
+
+var deletePost = (req, res) => {
+  let post = req.post;
+  post.remove((err, post) => {
+    if (err) {
+      return res.status(400).json({
+        error: err
+      });
+    }
+    res.json({ post });
+  });
+};
+
+module.exports = {
+  getPosts,
+  createPost,
+  postsByUser,
+  postById,
+  isPoster,
+  deletePost
+};

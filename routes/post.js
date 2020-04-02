@@ -14,6 +14,13 @@ router.post(
   postValidation.createPostValidator
 );
 router.get("/:userId", postControllers.postsByUser);
+router.delete(
+  "/:usedId/:postId",
+  authControllers.requireSign,
+  postControllers.isPoster,
+  postControllers.deletePost
+);
 
 router.param("userId", userControllers.userById);
+router.param("postId", postControllers.postById);
 module.exports = router;
