@@ -1,5 +1,6 @@
 var bcrypt = require("bcryptjs");
 var User = require("../Models/User");
+var jwt = require("jsonwebtoken");
 
 const signup = (req, res) => {
   var newUser = new User(req.body);
@@ -39,11 +40,22 @@ const login = (req, res) => {
 
   User.findOne({ email: user.email })
     .then(person => {
-      bcrypt.compare(user.password, person.password, function(err, result) {
-        if (!result) res.json({ message: "Wrong Password" });
+      if (!person) return res.json({ message: "User not found" });
+      else {
+        bcrypt.compare(user.password, person.password, function(err, result) {
+          if (!result) res.json({ message: "Wrong Password" });
 
-        res.json({ message: "You are Authenticated" });
-      });
+          // generate a token with user id and secret
+          const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+
+          // persist the token as 't' in cookie with expiry date
+          res.cookie("t", token, { expire: new Date() + 9999 });
+
+          // return response with user and token to frontend client
+          const { _id, name, email } = person;
+          return res.json({ token, user: { _id, email, name } });
+        });
+      }
     })
     .catch(err => {
       res.json({ message: err.message });

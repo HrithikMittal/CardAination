@@ -4,6 +4,7 @@ var morgan = require("morgan");
 var mongoose = require("mongoose");
 var bodyparser = require("body-parser");
 var expressValidator = require("express-validator");
+var cookieParser = require("cookie-parser");
 var app = express();
 dotenv.config();
 var port = process.env.PORT;
@@ -27,6 +28,7 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(morgan("dev"));
+app.use(cookieParser());
 app.use("/", postRoutes);
 app.use("/", authRoutes);
 
