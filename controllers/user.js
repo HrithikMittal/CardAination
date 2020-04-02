@@ -1,3 +1,4 @@
+var _ = require("lodash");
 var User = require("../Models/User");
 
 var userById = (req, res, next, id) => {
@@ -33,7 +34,23 @@ var allUsers = (req, res) => {
 };
 
 var getUser = (req, res) => {
+  req.profile.password = undefined;
   return res.json(req.profile);
 };
 
-module.exports = { userById, hasAuthorization, allUsers, getUser };
+var updateUser = (req, res) => {
+  let user = req.profile;
+  user = _.extend(user, req.body); // extend - mutate the source object
+  user.updated = Date.now();
+  user
+    .save()
+    .then(userres => {
+      userres.password = undefined;
+      res.json({ User: userres });
+    })
+    .catch(err => {
+      res.json({ message: "Update User successfully" });
+    });
+};
+
+module.exports = { userById, hasAuthorization, allUsers, getUser, updateUser };
