@@ -15,7 +15,7 @@ router.post(
 );
 router.get("/:userId", postControllers.postsByUser);
 router.delete(
-  "/:usedId/:postId",
+  "/:postId",
   authControllers.requireSign,
   postControllers.isPoster,
   postControllers.deletePost
